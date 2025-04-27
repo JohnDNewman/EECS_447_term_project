@@ -139,3 +139,11 @@ CREATE TABLE `uses` (
   CONSTRAINT `Uses_Member_FK` FOREIGN KEY (`userID`) REFERENCES `member` (`userID`),
   CONSTRAINT `Uses_Rentable_Device_FK` FOREIGN KEY (`deviceID`) REFERENCES `rentableDevice` (`deviceID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+
+CREATE TABLE payment (
+    fineID INT AUTO_INCREMENT PRIMARY KEY,
+    userID INT NOT NULL,
+    paymentValue DECIMAL(10,2) NOT NULL,
+    datePayed DATE NOT NULL DEFAULT (CURDATE()),
+    FOREIGN KEY (userID) REFERENCES customer(userID)
+);

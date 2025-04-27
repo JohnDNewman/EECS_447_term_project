@@ -51,3 +51,76 @@ BEGIN
         WHERE deviceID = NEW.deviceID;
     END IF;
 END;
+
+CREATE DEFINER=`eecs447_user`@`%` TRIGGER CHECK_AVAILABILITY_ON_RETURN
+AFTER UPDATE
+ON borrows
+FOR EACH ROW
+BEGIN
+    IF NEW.returnDate IS NOT NULL AND OLD.returnDate IS NULL THEN
+ 
+        UPDATE books
+        SET stock = stock + 1,
+            shelved = 1
+        WHERE itemID = NEW.itemID;
+        
+        UPDATE magazines
+        SET stock = stock + 1,
+            shelved = 1
+        WHERE itemID = NEW.itemID;
+        
+        UPDATE DVDs
+        SET stock = stock + 1,
+            shelved = 1
+        WHERE itemID = NEW.itemID;
+    
+    END IF;
+END;
+
+CREATE DEFINER=`eecs447_user`@`%` TRIGGER Check_Item_Availability_On_Insert
+AFTER INSERT
+ON borrows FOR EACH ROW
+BEGIN
+    -- Decrease stock first
+    UPDATE books
+    SET stock = stock - 1
+    WHERE itemID = NEW.itemID;
+    
+    -- Now set shelved based on the updated stock
+    UPDATE books
+    SET shelved = CASE WHEN stock = 0 THEN 0 ELSE 1 END
+    WHERE itemID = NEW.itemID;
+
+    -- Decrease stock first
+    UPDATE magazines
+    SET stock = stock - 1
+    WHERE itemID = NEW.itemID;
+    
+    -- Now set shelved based on updated stock
+    UPDATE magazines
+    SET shelved = CASE WHEN stock = 0 THEN 0 ELSE 1 END
+    WHERE itemID = NEW.itemID;
+
+    -- Decrease stock first
+    UPDATE DVDs
+    SET stock = stock - 1
+    WHERE itemID = NEW.itemID;
+    
+    -- Now set shelved based on updated stock
+    UPDATE DVDs
+    SET shelved = CASE WHEN stock = 0 THEN 0 ELSE 1 END
+    WHERE itemID = NEW.itemID;
+END;
+
+CREATE DEFINER=`eecs447_user`@`%` TRIGGER update_customer_fees_after_insert
+AFTER INSERT
+ON payments
+FOR EACH ROW
+BEGIN
+    UPDATE customer
+    SET fees = CASE
+                  WHEN fees - NEW.paymentValue < 0 THEN 0
+                  ELSE fees - NEW.paymentValue
+               END
+    WHERE userID = NEW.userID;
+END;

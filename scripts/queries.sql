@@ -112,7 +112,11 @@ UPDATE rentableITEM SET loanable = 1 WHERE itemID = 1;
 
 -- Updating user attributes (fees, loaned items)
 -- Updating user fees
-UPDATE customer SET fees = fees + 5.0 WHERE userID = 1;
+INSERT INTO payments (userID, paymentValue) VALUES (8, 137.00);
+
+--Updating user fees with specific date
+INSERT INTO payments (userID, paymentValue, datePayed) VALUES (8, 137.00, '2024-04-27');
+
 -- Updating user loaned items is the borrows table
 
 -- Updating item statuses (Loanable / Stock values)
@@ -129,11 +133,28 @@ SELECT * FROM borrows WHERE returnDate IS NULL AND DATEDIFF(CURDATE(), loanDate)
 
 -- Update availability of rentable devices
     --For Available
+--For Available
 DELETE FROM uses WHERE userID = 16 AND deviceID = 110;
-UPDATE rentableDevice SET available = 1 WHERE deviceID = 110;
-    --For Unavailable
-INSERT INTO uses(userID, deviceID) VALUES (16, 110);
-UPDATE rentableDevice SET available = 0 WHERE deviceID = 110;
+
+--For Unavailable
+INSERT INTO uses(userID, deviceID)
+VALUES (16, 110);
+
+
+-- Book availability: Display a list of all available books (not currently borrowed) within a specific genre.
+--All available books
+SELECT * FROM books WHERE shelved = 1;
+
+--Available books by genre
+SELECT * FROM books WHERE shelved = 1 and genre = "Fantasy";
+
+
+-- Search Book by Phrase
+SELECT * FROM books WHERE title LIKE '%Harry%Secrets%';
+
+
+
+
 
 
 
@@ -217,17 +238,108 @@ FROM borrows b JOIN books bk ON b.itemID = bk.itemID JOIN member m ON b.userID =
 WHERE b.returnDate IS NOT NULL
 GROUP BY b.userID, bk.genre ORDER BY b.userID, avgBorrowTime DESC;
 
+-- List all books by a specific author: Display all books in the library collection written by a particular author.
+--without author column
+SELECT itemID, title, genre, publisher, year, shelved, stock, ISBN, deweyDecimal FROM books WHERE author = "J.K. Rowling";
+
+--with author
+SELECT * FROM books WHERE author = "J.K. Rowling";
+
 -- Most popular author in the last month: Determine the author whose books have been borrowed the most in the last month.
 SELECT bk.author, COUNT(bk.author) AS authCount
 FROM borrows b JOIN books bk ON b.itemID = bk.itemID
 WHERE b.loanDate >= CURDATE() - INTERVAL 1 MONTH
 GROUP BY bk.author ORDER BY authCount DESC; 
 
+--Find books by publication year: Retrieve a list of books published in a specific year.
+--specific year
+SELECT * FROM books WHERE year = '1999-06-02'
+
+--books published between year date interval
+SELECT * FROM books WHERE year BETWEEN '1998-01-01' AND '2000-01-01';
+
+--between years
+SELECT * FROM books WHERE Year(year) BETWEEN 1998 AND 2000;
+
+-- Check membership status: Display the current status and account information for a specific client based on their unique ID
+--Membership Type
+SELECT membershipType FROM customer WHERE userID = 1;
+
+--Membership Type from Name
+SELECT membershipType FROM customer 
+WHERE userID = 
+(SELECT userID FROM member WHERE name = "Alice Smith");
+
+--All info
+SELECT * FROM customer WHERE userID = 1;
+
+--All info
+SELECT * FROM customer 
+WHERE userID = 
+(SELECT userID FROM member WHERE name = "Alice Smith");
+
+-- Fine calculation: Calculate the total fines owed by each member, considering overdue books and a daily fine rate (e.g., $0.25 per day).
+    -- calculated by triggers and preset to be accurate
+    -- adjusted based on payments as well and its just the fees column for customer table
+select userID, fees from customer;
+
+
+-- Exceeded borrowing limits: Produce a list of clients who have exceeded their borrowing limits.
+SELECT 
+    m.userID, 
+    m.name, 
+    c.membershipType, 
+    COUNT(b.loanID) AS cb
+FROM 
+    customer c
+JOIN 
+    borrows b ON c.userID = b.userID
+JOIN 
+    member m ON m.userID = c.userID
+WHERE 
+    b.returnDate IS NULL
+GROUP BY 
+    m.userID, m.name, c.membershipType
+HAVING 
+    (c.membershipType = 'Bronze' AND COUNT(b.loanID) > 1)
+ OR (c.membershipType = 'Silver' AND COUNT(b.loanID) > 5)
+ OR (c.membershipType = 'Gold' AND COUNT(b.loanID) > 10)
+ORDER BY 
+    cb DESC;
+
 -- Monthly fees report: Generate a report of total fees collected within the last month, broken down by membership type.
-SELECT c.membershipType, SUM(c.fees) AS totalFees
-FROM customer c JOIN borrows b ON c.userID = b.userID
-WHERE b.loanDate >= CURDATE() - INTERVAL 1 MONTH
-GROUP BY c.membershipType;
+-- Pick month and Year
+SELECT 
+    c.membershipType,
+    SUM(p.paymentValue) AS total_collected
+FROM 
+    payments p
+JOIN 
+    customer c ON p.userID = c.userID
+WHERE 
+    YEAR(p.datePayed) = 2025
+    AND MONTH(p.datePayed) = 4
+GROUP BY 
+    c.membershipType
+ORDER BY 
+    total_collected DESC;
+    
+    
+ -- Generates every payment for the month and orders by membership Type
+SELECT 
+    c.membershipType,
+    p.userID,
+    p.paymentValue,
+    p.datePayed
+FROM 
+    payments p
+JOIN 
+    customer c ON p.userID = c.userID
+WHERE 
+    YEAR(p.datePayed) = 2025
+    AND MONTH(p.datePayed) = 4
+ORDER BY 
+    c.membershipType ASC, p.datePayed ASC;
 
 -- Frequent borrowed items by client type: Determine the most frequently borrowed items by each client type.
 SELECT c.membershipType, ri.itemID, COUNT(ri.itemID) AS borrowCount
@@ -249,15 +361,70 @@ GROUP BY ri.itemID ORDER BY avgLoanDuration DESC;
 
 -- Monthly summary report: Generate a report summarizing the total number of items loaned, total fees collected, and the most popular items for the month.
     -- This has total number of loans and total fees for the last month
-SELECT COUNT(b.itemID) AS totalItemsLoaned, SUM(c.fees) AS totalFees
-FROM borrows b JOIN customer c ON b.userID = c.userID JOIN rentableItem ri ON b.itemID = ri.itemID
-WHERE b.loanDate >= CURDATE() - INTERVAL 1 MONTH;
-    -- This has the most popular items for the last month
-SELECT b.itemID, (SELECT ai.title FROM allItems ai WHERE ai.itemID = b.itemID), t.bcount FROM borrows b JOIN (SELECT b.itemID as bid, COUNT(b.itemID) as bcount FROM borrows b GROUP BY b.itemID) AS t ON t.bid = b.itemID
-WHERE t.bcount 	>=  (SELECT MAX(t.bcount) FROM (SELECT COUNT(b.itemID) as bcount FROM borrows b GROUP BY b.itemID) as t) AND b.loanDate >= CURDATE() - INTERVAL 1 MONTH;
+SELECT COUNT(*) as items_loaned FROM borrows
+WHERE YEAR(loanDate) = 2024 AND MONTH(loanDate) = 1
+AND
+itemID in
+(SELECT itemID FROM books
+        UNION ALL
+        SELECT itemID FROM magazines
+        UNION ALL
+        SELECT itemID FROM DVDs);
+
+SELECT 
+    SUM(p.paymentValue) AS total_fees_paid
+FROM 
+    payments p
+WHERE 
+    YEAR(p.datePayed) = 2025
+    AND MONTH(p.datePayed) = 4;
+
+SELECT 
+    ai.title,
+    ai.itemType,
+    ai.itemID,
+    COUNT(b.itemID) AS borrow_count
+FROM 
+    borrows b
+JOIN 
+    (
+        SELECT itemID, title, 'Book' AS itemType FROM books
+        UNION ALL
+        SELECT itemID, title, 'Magazine' AS itemType FROM magazines
+        UNION ALL
+        SELECT itemID, title, 'DVD' AS itemType FROM DVDs
+    ) AS ai ON b.itemID = ai.itemID
+WHERE
+	YEAR(loanDate) = 2024 AND MONTH(loanDate) = 1
+GROUP BY 
+   	ai.title, ai.itemType;
 
 -- Statistics breakdown: Break down the statistics by client type and item category (books, digital media, magazines).
---?
+--
+SELECT 
+    c.membershipType,
+    ai.itemType,
+    COUNT(b.loanID) AS borrow_count
+FROM 
+    customer c
+JOIN 
+    borrows b ON c.userID = b.userID
+JOIN 
+    (
+        SELECT itemID, 'Book' AS itemType FROM books
+        UNION ALL
+        SELECT itemID, 'Magazine' AS itemType FROM magazines
+        UNION ALL
+        SELECT itemID, 'DVD' AS itemType FROM DVDs
+    ) ai ON b.itemID = ai.itemID
+GROUP BY 
+    c.membershipType,
+    ai.itemType
+ORDER BY 
+    c.membershipType ASC,
+    ai.itemType ASC;
+
+
 -- Client borrowing report: Produce an individual report for each client showing their borrowing history and outstanding fees.
     -- This shows the fees and the membership type of the user
 SELECT c.userID, m.name,c.membershipType, c.fees
@@ -281,7 +448,49 @@ FROM borrows b JOIN customer c ON b.userID = c.userID JOIN member m ON c.userID 
 WHERE b.returnDate IS NULL AND b.dueDate < CURDATE()
 ORDER BY b.itemID;
 
+-- Members with overdue books: List all members who currently have at least one overdue book, along with the titles of the overdue books.(NOT returned yet)
+SELECT m.name, b.dueDate, b.returnDate FROM borrows b
+JOIN books bk ON b.itemID = bk.itemID
+JOIN member m ON m.userID = b.userID
+WHERE 
+(CURDATE() > dueDate AND returnDate is NULL);
+
 -- Revenue summary: Summarize the library’s revenue from fees, showing the breakdown by membership type and item category
-SELECT c.membershipType, ri.itemID, (SELECT ai.type FROM allItems ai WHERE ai.itemID = ri.itemID) as type , SUM(c.fees) AS totalFees
-FROM borrows b JOIN customer c ON b.userID = c.userID JOIN rentableItem ri ON b.itemID = ri.itemID
-GROUP BY c.membershipType, type ORDER BY totalFees DESC;
+SELECT 
+    c.membershipType,
+    SUM(p.paymentValue) AS total_revenue
+FROM 
+    payments p
+JOIN 
+    customer c ON p.userID = c.userID
+WHERE 
+    YEAR(p.datePayed) = 2025
+    AND MONTH(p.datePayed) = 4
+GROUP BY 
+    c.membershipType
+ORDER BY 
+    total_revenue DESC;
+
+SELECT 
+    itemDetails.itemType,
+    SUM(p.paymentValue) AS total_revenue
+FROM 
+    payments p
+JOIN 
+    borrows b ON p.userID = b.userID
+JOIN 
+    (
+        SELECT itemID, 'Book' AS itemType FROM books
+        UNION ALL
+        SELECT itemID, 'Magazine' AS itemType FROM magazines
+        UNION ALL
+        SELECT itemID, 'DVD' AS itemType FROM DVDs
+    ) AS itemDetails ON b.itemID = itemDetails.itemID
+WHERE 
+    YEAR(p.datePayed) = 2025
+    AND MONTH(p.datePayed) = 4
+GROUP BY 
+    itemDetails.itemType
+ORDER BY 
+    total_revenue DESC;
+
