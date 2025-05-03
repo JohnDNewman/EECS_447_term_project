@@ -1,0 +1,1186 @@
+|                                                                                      |
+|--------------------------------------------------------------------------------------|
+|-- View the convenient view of all items with titles and types
+SELECT * from allItems;|
+|itemID|title                                                            |type    |
+|------|-----------------------------------------------------------------|--------|
+|1     |Harry Potter and the Chamber of Secrets                          |Book    |
+|2     |1984                                                             |Book    |
+|3     |To Kill a Mockingbird                                            |Book    |
+|4     |Harry Potter and the Philosopher's Stone                         |Book    |
+|5     |The Road                                                         |Book    |
+|6     |Pride and Prejudice                                              |Book    |
+|7     |Zen and the Art of Motorcycle Maintenance                        |Book    |
+|8     |Jurassic Park                                                    |Book    |
+|9     |The Subtle Art of Not Giving a F*ck                              |Book    |
+|10    |We Should All Be Feminists                                       |Book    |
+|11    |Led Zeppelin IV                                                  |CD      |
+|12    |Hotel California                                                 |CD      |
+|13    |Abbey Road                                                       |CD      |
+|14    |Thriller                                                         |CD      |
+|15    |The Dark Side of the Moon                                        |CD      |
+|16    |Back in Black                                                    |CD      |
+|17    |Rumours                                                          |CD      |
+|18    |The Wall                                                         |CD      |
+|19    |Born to Run                                                      |CD      |
+|20    |Purple Rain                                                      |CD      |
+|21    |Inception                                                        |DVD     |
+|22    |The Matrix                                                       |DVD     |
+|23    |The Godfather                                                    |DVD     |
+|24    |Pulp Fiction                                                     |DVD     |
+|25    |Forrest Gump                                                     |DVD     |
+|26    |The Shawshank Redemption                                         |DVD     |
+|27    |Gladiator                                                        |DVD     |
+|28    |Titanic                                                          |DVD     |
+|29    |Avatar                                                           |DVD     |
+|30    |The Lord of the Rings: Fellowship of the Ring                    |DVD     |
+|31    |Time                                                             |Magazine|
+|32    |National Geographic                                              |Magazine|
+|33    |Wired                                                            |Magazine|
+|34    |The Economist                                                    |Magazine|
+|35    |Forbes                                                           |Magazine|
+|36    |Popular Science                                                  |Magazine|
+|37    |New Yorker                                                       |Magazine|
+|38    |Scientific American                                              |Magazine|
+|39    |Nature                                                           |Magazine|
+|40    |Discover                                                         |Magazine|
+|41    |The Kite Runner                                                  |Book    |
+|42    |Harry Potter and the Prisoner of Azkaban                         |Book    |
+|43    |Life of Pi                                                       |Book    |
+|44    |The Goldfinch                                                    |Book    |
+|45    |Never Let Me Go                                                  |Book    |
+|46    |The Hobbit                                                       |Book    |
+|47    |The Lovely Bones                                                 |Book    |
+|48    |Slaughterhouse-Five                                              |Book    |
+|49    |The Road to Character                                            |Book    |
+|50    |Quiet: The Power of Introverts in a World That Can't Stop Talking|Book    |
+|51    |The Dark Knight                                                  |DVD     |
+|52    |Interstellar                                                     |DVD     |
+|53    |Fight Club                                                       |DVD     |
+|54    |The Social Network                                               |DVD     |
+|55    |The Silence of the Lambs                                         |DVD     |
+|56    |The Green Mile                                                   |DVD     |
+|57    |Saving Private Ryan                                              |DVD     |
+|58    |Schindler's List                                                 |DVD     |
+|59    |The Departed                                                     |DVD     |
+|60    |Whiplash                                                         |DVD     |
+|61    |Nevermind                                                        |CD      |
+|62    |21                                                               |CD      |
+|63    |A Night at the Opera                                             |CD      |
+|64    |Jagged Little Pill                                               |CD      |
+|65    |Good Kid, M.A.A.D City                                           |CD      |
+|66    |The Miseducation of Lauryn Hill                                  |CD      |
+|67    |Lemonade                                                         |CD      |
+|68    |Born This Way                                                    |CD      |
+|69    |Damn.                                                            |CD      |
+|70    |American Idiot                                                   |CD      |
+|71    |Rolling Stone                                                    |Magazine|
+|72    |Vogue                                                            |Magazine|
+|73    |Scientific American Mind                                         |Magazine|
+|74    |Harvard Business Review                                          |Magazine|
+|75    |National Geographic Kids                                         |Magazine|
+|76    |Entertainment Weekly                                             |Magazine|
+|77    |PC Gamer                                                         |Magazine|
+|78    |Smithsonian                                                      |Magazine|
+|79    |The Atlantic                                                     |Magazine|
+|80    |Teen Vogue                                                       |Magazine|
+|                                                                                                                                                                       |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Check missing items (check if item has not been returned in x number of days)
+SELECT * FROM borrows WHERE returnDate IS NULL AND DATEDIFF(CURDATE(), loanDate) > 30;|
+|loanID|itemID|userID|loanDate  |dueDate   |returnDate|
+|------|------|------|----------|----------|----------|
+|2     |38    |2     |2024-01-05|2024-01-19|          |
+|9     |27    |9     |2024-01-24|2024-02-07|          |
+|11    |20    |13    |2024-01-30|2024-02-13|          |
+|13    |63    |7     |2024-03-15|2024-03-29|          |
+|14    |51    |7     |2024-02-16|2024-03-01|          |
+|15    |80    |6     |2024-02-18|2024-03-03|          |
+|25    |71    |15    |2024-03-25|2024-04-08|          |
+|31    |54    |8     |2024-03-05|2024-03-19|          |
+|32    |22    |8     |2024-02-14|2024-02-28|          |
+|38    |10    |6     |2024-03-07|2024-03-21|          |
+|41    |6     |2     |2024-03-29|2024-04-12|          |
+|42    |66    |15    |2024-02-13|2024-02-27|          |
+|43    |57    |4     |2024-03-13|2024-03-27|          |
+|49    |33    |10    |2024-02-28|2024-03-13|          |
+|                                                                 |
+|-----------------------------------------------------------------|
+|    -- All available books
+SELECT * FROM books WHERE shelved = 1;|
+|itemID|ISBN             |deweyDecimal|title                                                            |author                  |genre           |year      |publisher       |stock|shelved|
+|------|-----------------|------------|-----------------------------------------------------------------|------------------------|----------------|----------|----------------|-----|-------|
+|1     |9,780,439,064,873|813.54      |Harry Potter and the Chamber of Secrets                          |J.K. Rowling            |Fantasy         |1999-06-02|Scholastic      |2    |1      |
+|3     |9,780,061,120,084|813.54      |To Kill a Mockingbird                                            |Harper Lee              |Fiction         |1960-07-11|HarperCollins   |3    |1      |
+|4     |9,780,747,532,699|823.92      |Harry Potter and the Philosopher's Stone                         |J.K. Rowling            |Fantasy         |1997-06-26|Bloomsbury      |4    |1      |
+|5     |9,780,307,277,671|823         |The Road                                                         |Cormac McCarthy         |Post-apocalyptic|2006-09-26|Vintage         |3    |1      |
+|6     |9,780,141,439,600|823.7       |Pride and Prejudice                                              |Jane Austen             |Romance         |1813-01-28|Penguin         |3    |1      |
+|7     |9,780,385,472,579|813.54      |Zen and the Art of Motorcycle Maintenance                        |Robert M. Pirsig        |Philosophical   |1974-04-01|HarperTorch     |2    |1      |
+|8     |9,780,553,296,983|813.6       |Jurassic Park                                                    |Michael Crichton        |Science Fiction |1990-11-20|Ballantine Books|3    |1      |
+|9     |9,780,062,316,097|158         |The Subtle Art of Not Giving a F*ck                              |Mark Manson             |Self-help       |2016-09-13|HarperOne       |2    |1      |
+|10    |9,780,374,533,557|305.42      |We Should All Be Feminists                                       |Chimamanda Ngozi Adichie|Essay           |2014-07-29|Anchor          |4    |1      |
+|41    |9,780,140,283,334|813.54      |The Kite Runner                                                  |Khaled Hosseini         |Fiction         |2003-05-29|Riverhead Books |3    |1      |
+|42    |9,780,439,139,595|813.6       |Harry Potter and the Prisoner of Azkaban                         |J.K. Rowling            |Fantasy         |1999-07-08|Scholastic      |2    |1      |
+|43    |9,780,307,387,899|823         |Life of Pi                                                       |Yann Martel             |Adventure       |2001-09-11|Harcourt        |3    |1      |
+|44    |9,780,143,126,560|813.6       |The Goldfinch                                                    |Donna Tartt             |Fiction         |2013-10-22|Little, Brown   |3    |1      |
+|45    |9,780,060,850,524|823.92      |Never Let Me Go                                                  |Kazuo Ishiguro          |Dystopian       |2005-03-03|Faber and Faber |1    |1      |
+|46    |9,780,618,260,300|823.912     |The Hobbit                                                       |J.R.R. Tolkien          |Fantasy         |1937-09-21|Houghton Mifflin|2    |1      |
+|47    |9,781,594,480,003|813.6       |The Lovely Bones                                                 |Alice Sebold            |Fiction         |2002-07-03|Little, Brown   |3    |1      |
+|48    |9,780,679,734,772|813.54      |Slaughterhouse-Five                                              |Kurt Vonnegut           |Satire          |1969-03-31|Delacorte       |4    |1      |
+|49    |9,780,307,743,658|813.6       |The Road to Character                                            |David Brooks            |Self-help       |2015-04-14|Random House    |2    |1      |
+|50    |9,781,451,673,319|158.1       |Quiet: The Power of Introverts in a World That Can't Stop Talking|Susan Cain              |Psychology      |2012-01-24|Crown Publishing|2    |1      |
+|                                                                                            |
+|--------------------------------------------------------------------------------------------|
+|    -- Available books by genre
+SELECT * FROM books WHERE shelved = 1 and genre = "Fantasy";|
+|itemID|ISBN             |deweyDecimal|title                                   |author        |genre  |year      |publisher       |stock|shelved|
+|------|-----------------|------------|----------------------------------------|--------------|-------|----------|----------------|-----|-------|
+|1     |9,780,439,064,873|813.54      |Harry Potter and the Chamber of Secrets |J.K. Rowling  |Fantasy|1999-06-02|Scholastic      |2    |1      |
+|4     |9,780,747,532,699|823.92      |Harry Potter and the Philosopher's Stone|J.K. Rowling  |Fantasy|1997-06-26|Bloomsbury      |4    |1      |
+|42    |9,780,439,139,595|813.6       |Harry Potter and the Prisoner of Azkaban|J.K. Rowling  |Fantasy|1999-07-08|Scholastic      |2    |1      |
+|46    |9,780,618,260,300|823.912     |The Hobbit                              |J.R.R. Tolkien|Fantasy|1937-09-21|Houghton Mifflin|2    |1      |
+|                                                                                    |
+|------------------------------------------------------------------------------------|
+|    -- Search Book by Phrase
+SELECT * FROM books WHERE title LIKE '%Harry%Secrets%';|
+|itemID|ISBN             |deweyDecimal|title                                  |author      |genre  |year      |publisher |stock|shelved|
+|------|-----------------|------------|---------------------------------------|------------|-------|----------|----------|-----|-------|
+|1     |9,780,439,064,873|813.54      |Harry Potter and the Chamber of Secrets|J.K. Rowling|Fantasy|1999-06-02|Scholastic|2    |1      |
+|                                                         |
+|---------------------------------------------------------|
+|-- List all currently loaned items
+SELECT * FROM borrows;|
+|loanID|itemID|userID|loanDate  |dueDate   |returnDate|
+|------|------|------|----------|----------|----------|
+|1     |1     |1     |2024-01-01|2024-01-14|2024-01-10|
+|2     |38    |2     |2024-01-05|2024-01-19|          |
+|3     |30    |3     |2024-01-10|2024-01-24|2024-01-20|
+|4     |14    |19    |2024-01-12|2024-01-26|2024-01-25|
+|5     |5     |5     |2024-01-15|2024-01-29|2024-01-16|
+|6     |6     |11    |2024-01-18|2024-02-01|2024-01-30|
+|7     |16    |7     |2024-01-20|2024-02-03|2024-01-31|
+|8     |11    |17    |2024-01-22|2024-02-05|2024-02-01|
+|9     |27    |9     |2024-01-24|2024-02-07|          |
+|10    |40    |20    |2024-01-26|2024-02-09|2024-02-05|
+|11    |20    |13    |2024-01-30|2024-02-13|          |
+|12    |1     |5     |2025-04-20|2025-05-04|2025-04-27|
+|13    |63    |7     |2024-03-15|2024-03-29|          |
+|14    |51    |7     |2024-02-16|2024-03-01|          |
+|15    |80    |6     |2024-02-18|2024-03-03|          |
+|16    |8     |3     |2024-02-03|2024-02-17|2024-02-15|
+|17    |5     |4     |2024-02-11|2024-02-25|2024-03-03|
+|18    |7     |14    |2024-02-19|2024-03-04|2024-03-02|
+|19    |28    |13    |2024-03-03|2024-03-17|2024-03-17|
+|20    |4     |3     |2024-02-20|2024-03-05|2024-03-07|
+|21    |13    |15    |2024-02-07|2024-02-21|2024-02-22|
+|22    |62    |7     |2024-03-02|2024-03-16|2024-03-15|
+|23    |41    |1     |2024-02-22|2024-03-07|2024-03-05|
+|24    |29    |13    |2024-02-03|2024-02-17|2024-02-22|
+|25    |71    |15    |2024-03-25|2024-04-08|          |
+|26    |10    |12    |2024-02-23|2024-03-08|2024-03-12|
+|27    |43    |10    |2024-03-08|2024-03-22|2024-03-20|
+|28    |42    |11    |2024-02-22|2024-03-07|2024-03-12|
+|29    |21    |2     |2024-02-11|2024-02-25|2024-03-03|
+|30    |42    |8     |2024-02-11|2024-02-25|2024-02-23|
+|31    |54    |8     |2024-03-05|2024-03-19|          |
+|32    |22    |8     |2024-02-14|2024-02-28|          |
+|33    |17    |8     |2024-03-19|2024-04-02|2024-04-01|
+|34    |36    |4     |2024-03-11|2024-03-25|2024-03-26|
+|35    |25    |10    |2024-03-27|2024-04-10|2024-04-10|
+|36    |40    |13    |2024-02-24|2024-03-09|2024-03-14|
+|37    |52    |12    |2024-03-17|2024-03-31|2024-04-01|
+|38    |10    |6     |2024-03-07|2024-03-21|          |
+|39    |34    |12    |2024-03-28|2024-04-11|2024-04-15|
+|40    |47    |11    |2024-03-04|2024-03-18|2024-03-16|
+|41    |6     |2     |2024-03-29|2024-04-12|          |
+|42    |66    |15    |2024-02-13|2024-02-27|          |
+|43    |57    |4     |2024-03-13|2024-03-27|          |
+|44    |58    |9     |2024-02-15|2024-02-29|2024-03-01|
+|45    |3     |14    |2024-03-24|2024-04-07|2024-04-10|
+|46    |19    |1     |2024-03-06|2024-03-20|2024-03-19|
+|47    |70    |5     |2024-03-09|2024-03-23|2024-03-24|
+|48    |2     |6     |2024-02-25|2024-03-10|2024-03-11|
+|49    |33    |10    |2024-02-28|2024-03-13|          |
+|50    |45    |11    |2024-03-01|2024-03-15|2024-03-18|
+|51    |6     |3     |2025-05-02|2025-05-16|          |
+|52    |2     |3     |2025-05-02|2025-05-16|          |
+|                                                                                    |
+|------------------------------------------------------------------------------------|
+|-- List all accounts with an outstanding fine
+SELECT * FROM customer WHERE fees > 0;|
+|userID|fees |status  |membershipType|libraryCardNumber|
+|------|-----|--------|--------------|-----------------|
+|2     |2.5  |Active  |Silver        |8,473,625,091    |
+|4     |1.25 |Active  |Gold          |3,847,569,201    |
+|6     |2.5  |Active  |Silver        |2,847,563,920    |
+|7     |2.5  |Active  |Silver        |7,658,392,014    |
+|8     |2.5  |Active  |Gold          |9,382,746,510    |
+|9     |12.75|Active  |Bronze        |2,759,104,836    |
+|10    |13.75|Active  |Silver        |6,483,950,271    |
+|11    |1    |Active  |Gold          |1,837,362,509    |
+|13    |53.5 |Inactive|Bronze        |3,764,839,205    |
+|15    |105  |Inactive|Silver        |5,910,284,736    |
+|                                                                                   |
+|-----------------------------------------------------------------------------------|
+|-- Filter loanable items based on type (book, DVDs, newspaper)
+SELECT * FROM books;|
+|itemID|ISBN             |deweyDecimal|title                                                            |author                  |genre           |year      |publisher       |stock|shelved|
+|------|-----------------|------------|-----------------------------------------------------------------|------------------------|----------------|----------|----------------|-----|-------|
+|1     |9,780,439,064,873|813.54      |Harry Potter and the Chamber of Secrets                          |J.K. Rowling            |Fantasy         |1999-06-02|Scholastic      |2    |1      |
+|2     |9,780,451,524,935|823.912     |1984                                                             |George Orwell           |Dystopian       |1949-06-08|Plume           |0    |0      |
+|3     |9,780,061,120,084|813.54      |To Kill a Mockingbird                                            |Harper Lee              |Fiction         |1960-07-11|HarperCollins   |3    |1      |
+|4     |9,780,747,532,699|823.92      |Harry Potter and the Philosopher's Stone                         |J.K. Rowling            |Fantasy         |1997-06-26|Bloomsbury      |4    |1      |
+|5     |9,780,307,277,671|823         |The Road                                                         |Cormac McCarthy         |Post-apocalyptic|2006-09-26|Vintage         |3    |1      |
+|6     |9,780,141,439,600|823.7       |Pride and Prejudice                                              |Jane Austen             |Romance         |1813-01-28|Penguin         |3    |1      |
+|7     |9,780,385,472,579|813.54      |Zen and the Art of Motorcycle Maintenance                        |Robert M. Pirsig        |Philosophical   |1974-04-01|HarperTorch     |2    |1      |
+|8     |9,780,553,296,983|813.6       |Jurassic Park                                                    |Michael Crichton        |Science Fiction |1990-11-20|Ballantine Books|3    |1      |
+|9     |9,780,062,316,097|158         |The Subtle Art of Not Giving a F*ck                              |Mark Manson             |Self-help       |2016-09-13|HarperOne       |2    |1      |
+|10    |9,780,374,533,557|305.42      |We Should All Be Feminists                                       |Chimamanda Ngozi Adichie|Essay           |2014-07-29|Anchor          |4    |1      |
+|41    |9,780,140,283,334|813.54      |The Kite Runner                                                  |Khaled Hosseini         |Fiction         |2003-05-29|Riverhead Books |3    |1      |
+|42    |9,780,439,139,595|813.6       |Harry Potter and the Prisoner of Azkaban                         |J.K. Rowling            |Fantasy         |1999-07-08|Scholastic      |2    |1      |
+|43    |9,780,307,387,899|823         |Life of Pi                                                       |Yann Martel             |Adventure       |2001-09-11|Harcourt        |3    |1      |
+|44    |9,780,143,126,560|813.6       |The Goldfinch                                                    |Donna Tartt             |Fiction         |2013-10-22|Little, Brown   |3    |1      |
+|45    |9,780,060,850,524|823.92      |Never Let Me Go                                                  |Kazuo Ishiguro          |Dystopian       |2005-03-03|Faber and Faber |1    |1      |
+|46    |9,780,618,260,300|823.912     |The Hobbit                                                       |J.R.R. Tolkien          |Fantasy         |1937-09-21|Houghton Mifflin|2    |1      |
+|47    |9,781,594,480,003|813.6       |The Lovely Bones                                                 |Alice Sebold            |Fiction         |2002-07-03|Little, Brown   |3    |1      |
+|48    |9,780,679,734,772|813.54      |Slaughterhouse-Five                                              |Kurt Vonnegut           |Satire          |1969-03-31|Delacorte       |4    |1      |
+|49    |9,780,307,743,658|813.6       |The Road to Character                                            |David Brooks            |Self-help       |2015-04-14|Random House    |2    |1      |
+|50    |9,781,451,673,319|158.1       |Quiet: The Power of Introverts in a World That Can't Stop Talking|Susan Cain              |Psychology      |2012-01-24|Crown Publishing|2    |1      |
+|                  |
+|------------------|
+|SELECT * FROM CDs;|
+|itemID|title                          |performingArtists|distributor           |year      |stock|shelved|
+|------|-------------------------------|-----------------|----------------------|----------|-----|-------|
+|11    |Led Zeppelin IV                |Led Zeppelin     |Atlantic              |1971-11-08|3    |1      |
+|12    |Hotel California               |Eagles           |Asylum                |1976-12-08|1    |0      |
+|13    |Abbey Road                     |The Beatles      |EMI                   |1969-09-26|2    |1      |
+|14    |Thriller                       |Michael Jackson  |Epic                  |1982-11-30|3    |1      |
+|15    |The Dark Side of the Moon      |Pink Floyd       |Harvest               |1973-03-01|1    |0      |
+|16    |Back in Black                  |AC/DC            |Atlantic              |1980-07-25|2    |1      |
+|17    |Rumours                        |Fleetwood Mac    |Warner Bros.          |1977-02-04|2    |1      |
+|18    |The Wall                       |Pink Floyd       |Columbia              |1979-11-30|3    |1      |
+|19    |Born to Run                    |Bruce Springsteen|Columbia              |1975-08-25|2    |1      |
+|20    |Purple Rain                    |Prince           |Warner Bros.          |1984-06-25|4    |0      |
+|61    |Nevermind                      |Nirvana          |DGC                   |1991-09-24|3    |1      |
+|62    |21                             |Adele            |XL Recordings         |2011-01-24|1    |1      |
+|63    |A Night at the Opera           |Queen            |EMI                   |1975-11-21|2    |1      |
+|64    |Jagged Little Pill             |Alanis Morissette|Maverick              |1995-06-13|2    |1      |
+|65    |Good Kid, M.A.A.D City         |Kendrick Lamar   |Top Dawg Entertainment|2012-10-22|3    |1      |
+|66    |The Miseducation of Lauryn Hill|Lauryn Hill      |Ruffhouse             |1998-08-25|2    |1      |
+|67    |Lemonade                       |Beyoncé          |Parkwood              |2016-04-23|1    |1      |
+|68    |Born This Way                  |Lady Gaga        |Interscope            |2011-05-23|2    |1      |
+|69    |Damn.                          |Kendrick Lamar   |Top Dawg Entertainment|2017-04-14|3    |1      |
+|70    |American Idiot                 |Green Day        |Reprise               |2004-09-20|2    |1      |
+|                   |
+|-------------------|
+|SELECT * FROM DVDs;|
+|itemID|title                                        |director            |publisher             |year      |stock|shelved|
+|------|---------------------------------------------|--------------------|----------------------|----------|-----|-------|
+|21    |Inception                                    |Christopher Nolan   |Warner Bros.          |2010-07-16|1    |1      |
+|22    |The Matrix                                   |Wachowski Sisters   |Warner Bros.          |1999-03-31|3    |1      |
+|23    |The Godfather                                |Francis Ford Coppola|Paramount             |1972-03-24|2    |1      |
+|24    |Pulp Fiction                                 |Quentin Tarantino   |Miramax               |1994-10-14|2    |1      |
+|25    |Forrest Gump                                 |Robert Zemeckis     |Paramount             |1994-07-06|1    |0      |
+|26    |The Shawshank Redemption                     |Frank Darabont      |Columbia              |1994-09-23|2    |1      |
+|27    |Gladiator                                    |Ridley Scott        |Universal             |2000-05-05|3    |0      |
+|28    |Titanic                                      |James Cameron       |Paramount             |1997-12-19|1    |1      |
+|29    |Avatar                                       |James Cameron       |20th Century Fox      |2009-12-18|4    |1      |
+|30    |The Lord of the Rings: Fellowship of the Ring|Peter Jackson       |New Line Cinema       |2001-12-19|3    |1      |
+|51    |The Dark Knight                              |Christopher Nolan   |Warner Bros.          |2008-07-18|1    |1      |
+|52    |Interstellar                                 |Christopher Nolan   |Paramount             |2014-11-07|1    |1      |
+|53    |Fight Club                                   |David Fincher       |20th Century Fox      |1999-10-15|2    |1      |
+|54    |The Social Network                           |David Fincher       |Columbia              |2010-10-01|2    |1      |
+|55    |The Silence of the Lambs                     |Jonathan Demme      |Orion Pictures        |1991-02-14|3    |1      |
+|56    |The Green Mile                               |Frank Darabont      |Warner Bros.          |1999-12-10|2    |1      |
+|57    |Saving Private Ryan                          |Steven Spielberg    |DreamWorks            |1998-07-24|3    |1      |
+|58    |Schindler's List                             |Steven Spielberg    |Universal             |1993-12-15|4    |1      |
+|59    |The Departed                                 |Martin Scorsese     |Warner Bros.          |2006-10-06|2    |1      |
+|60    |Whiplash                                     |Damien Chazelle     |Sony Pictures Classics|2014-10-10|2    |1      |
+|                        |
+|------------------------|
+|SELECT * FROM magazines;|
+|itemID|title                   |issueNumber|publicationDate|stock|shelved|
+|------|------------------------|-----------|---------------|-----|-------|
+|31    |Time                    |101        |2024-01-15     |2    |1      |
+|32    |National Geographic     |221        |2024-02-10     |1    |0      |
+|33    |Wired                   |87         |2024-03-01     |1    |1      |
+|34    |The Economist           |56         |2024-01-25     |3    |1      |
+|35    |Forbes                  |120        |2024-02-28     |2    |1      |
+|36    |Popular Science         |304        |2024-03-15     |3    |1      |
+|37    |New Yorker              |500        |2024-01-30     |1    |1      |
+|38    |Scientific American     |442        |2024-02-14     |1    |0      |
+|39    |Nature                  |788        |2024-03-12     |2    |1      |
+|40    |Discover                |912        |2024-01-18     |2    |1      |
+|71    |Rolling Stone           |1,345      |2024-03-20     |2    |1      |
+|72    |Vogue                   |1,010      |2024-02-05     |1    |1      |
+|73    |Scientific American Mind|215        |2024-01-22     |3    |1      |
+|74    |Harvard Business Review |399        |2024-02-11     |2    |1      |
+|75    |National Geographic Kids|180        |2024-03-05     |1    |1      |
+|76    |Entertainment Weekly    |1,122      |2024-03-10     |2    |1      |
+|77    |PC Gamer                |345        |2024-02-01     |3    |1      |
+|78    |Smithsonian             |430        |2024-03-08     |2    |1      |
+|79    |The Atlantic            |785        |2024-01-27     |3    |1      |
+|80    |Teen Vogue              |688        |2024-02-18     |1    |1      |
+|                                                                                                                                      |
+|--------------------------------------------------------------------------------------------------------------------------------------|
+|-- Find books by publication year: Retrieve a list of books published in a specific year.
+SELECT * FROM books WHERE YEAR(year) = 1999;|
+|itemID|ISBN             |deweyDecimal|title                                   |author      |genre  |year      |publisher |stock|shelved|
+|------|-----------------|------------|----------------------------------------|------------|-------|----------|----------|-----|-------|
+|1     |9,780,439,064,873|813.54      |Harry Potter and the Chamber of Secrets |J.K. Rowling|Fantasy|1999-06-02|Scholastic|2    |1      |
+|42    |9,780,439,139,595|813.6       |Harry Potter and the Prisoner of Azkaban|J.K. Rowling|Fantasy|1999-07-08|Scholastic|2    |1      |
+|                                                                                                         |
+|---------------------------------------------------------------------------------------------------------|
+|-- Filter books based on date range
+SELECT * FROM books WHERE year BETWEEN '1998-01-01' AND '2000-01-01';|
+|itemID|ISBN             |deweyDecimal|title                                   |author      |genre  |year      |publisher |stock|shelved|
+|------|-----------------|------------|----------------------------------------|------------|-------|----------|----------|-----|-------|
+|1     |9,780,439,064,873|813.54      |Harry Potter and the Chamber of Secrets |J.K. Rowling|Fantasy|1999-06-02|Scholastic|2    |1      |
+|42    |9,780,439,139,595|813.6       |Harry Potter and the Prisoner of Azkaban|J.K. Rowling|Fantasy|1999-07-08|Scholastic|2    |1      |
+|                                                                                               |
+|-----------------------------------------------------------------------------------------------|
+|-- Filter books based on year range
+SELECT * FROM books WHERE Year(year) BETWEEN 1998 AND 2000;|
+|itemID|ISBN             |deweyDecimal|title                                   |author      |genre  |year      |publisher |stock|shelved|
+|------|-----------------|------------|----------------------------------------|------------|-------|----------|----------|-----|-------|
+|1     |9,780,439,064,873|813.54      |Harry Potter and the Chamber of Secrets |J.K. Rowling|Fantasy|1999-06-02|Scholastic|2    |1      |
+|42    |9,780,439,139,595|813.6       |Harry Potter and the Prisoner of Azkaban|J.K. Rowling|Fantasy|1999-07-08|Scholastic|2    |1      |
+|                                                                           |
+|---------------------------------------------------------------------------|
+|-- Filter books based on genre
+SELECT * FROM books WHERE genre = 'Fiction';|
+|itemID|ISBN             |deweyDecimal|title                |author         |genre  |year      |publisher      |stock|shelved|
+|------|-----------------|------------|---------------------|---------------|-------|----------|---------------|-----|-------|
+|3     |9,780,061,120,084|813.54      |To Kill a Mockingbird|Harper Lee     |Fiction|1960-07-11|HarperCollins  |3    |1      |
+|41    |9,780,140,283,334|813.54      |The Kite Runner      |Khaled Hosseini|Fiction|2003-05-29|Riverhead Books|3    |1      |
+|44    |9,780,143,126,560|813.6       |The Goldfinch        |Donna Tartt    |Fiction|2013-10-22|Little, Brown  |3    |1      |
+|47    |9,781,594,480,003|813.6       |The Lovely Bones     |Alice Sebold   |Fiction|2002-07-03|Little, Brown  |3    |1      |
+|                                                                                         |
+|-----------------------------------------------------------------------------------------|
+|-- Filter books based on publisher
+SELECT * FROM books WHERE publisher = 'HarperCollins';|
+|itemID|ISBN             |deweyDecimal|title                |author    |genre  |year      |publisher    |stock|shelved|
+|------|-----------------|------------|---------------------|----------|-------|----------|-------------|-----|-------|
+|3     |9,780,061,120,084|813.54      |To Kill a Mockingbird|Harper Lee|Fiction|1960-07-11|HarperCollins|3    |1      |
+|                                                                                          |
+|------------------------------------------------------------------------------------------|
+|-- Search for specific item name
+SELECT * FROM allItems WHERE title LIKE '%Harry Potter%';|
+|itemID|title                                   |type|
+|------|----------------------------------------|----|
+|1     |Harry Potter and the Chamber of Secrets |Book|
+|4     |Harry Potter and the Philosopher's Stone|Book|
+|42    |Harry Potter and the Prisoner of Azkaban|Book|
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Analyze the full list of loans (both active and prior) and identify the most popular items. Include different search filters such as the past week, month, or year.
+-- EX for the past 2 years, can change the interval to 1 YEAR, 1 MONTH, 1 WEEK
+    -- Most borrows happened in 2024 for some reason so 2 years actually shows all items.
+SELECT COUNT(*), ri.itemID,
+CASE 
+ WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN b.title
+ WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN c.title
+ WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN d.title
+ WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines m) THEN m.title
+END,
+CASE 
+ WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN "Book"
+ WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN "CD"
+ WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN "DVD"
+ WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines m) THEN "Magazine"
+END
+FROM (rentableItem ri NATURAL LEFT JOIN books b) LEFT JOIN CDs c ON c.itemID = ri.itemID LEFT JOIN DVDs d  ON d.itemID = ri.itemID LEFT JOIN magazines m ON m.itemID = ri.itemID JOIN borrows b2 on b2.itemID = ri.itemID
+WHERE b2.loanDate > NOW()- INTERVAL 2 YEAR GROUP BY itemID ORDER BY COUNT(*) DESC;|
+|COUNT(*)|itemID|CASE 
+	WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN b.title
+	WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN c.title
+	WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN d.title
+	WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines|CASE 
+	WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN "Book"
+	WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN "CD"
+	WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN "DVD"
+	WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines m) THE|
+|--------|------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|3       |6     |Pride and Prejudice                                                                                                                                                                                                                                           |Book                                                                                                                                                                                                                                                           |
+|2       |5     |The Road                                                                                                                                                                                                                                                      |Book                                                                                                                                                                                                                                                           |
+|2       |40    |Discover                                                                                                                                                                                                                                                      |Magazine                                                                                                                                                                                                                                                       |
+|2       |42    |Harry Potter and the Prisoner of Azkaban                                                                                                                                                                                                                      |Book                                                                                                                                                                                                                                                           |
+|2       |2     |1984                                                                                                                                                                                                                                                          |Book                                                                                                                                                                                                                                                           |
+|2       |10    |We Should All Be Feminists                                                                                                                                                                                                                                    |Book                                                                                                                                                                                                                                                           |
+|2       |1     |Harry Potter and the Chamber of Secrets                                                                                                                                                                                                                       |Book                                                                                                                                                                                                                                                           |
+|1       |20    |Purple Rain                                                                                                                                                                                                                                                   |CD                                                                                                                                                                                                                                                             |
+|1       |21    |Inception                                                                                                                                                                                                                                                     |DVD                                                                                                                                                                                                                                                            |
+|1       |33    |Wired                                                                                                                                                                                                                                                         |Magazine                                                                                                                                                                                                                                                       |
+|1       |7     |Zen and the Art of Motorcycle Maintenance                                                                                                                                                                                                                     |Book                                                                                                                                                                                                                                                           |
+|1       |25    |Forrest Gump                                                                                                                                                                                                                                                  |DVD                                                                                                                                                                                                                                                            |
+|1       |41    |The Kite Runner                                                                                                                                                                                                                                               |Book                                                                                                                                                                                                                                                           |
+|1       |57    |Saving Private Ryan                                                                                                                                                                                                                                           |DVD                                                                                                                                                                                                                                                            |
+|1       |8     |Jurassic Park                                                                                                                                                                                                                                                 |Book                                                                                                                                                                                                                                                           |
+|1       |36    |Popular Science                                                                                                                                                                                                                                               |Magazine                                                                                                                                                                                                                                                       |
+|1       |14    |Thriller                                                                                                                                                                                                                                                      |CD                                                                                                                                                                                                                                                             |
+|1       |62    |21                                                                                                                                                                                                                                                            |CD                                                                                                                                                                                                                                                             |
+|1       |66    |The Miseducation of Lauryn Hill                                                                                                                                                                                                                               |CD                                                                                                                                                                                                                                                             |
+|1       |27    |Gladiator                                                                                                                                                                                                                                                     |DVD                                                                                                                                                                                                                                                            |
+|1       |43    |Life of Pi                                                                                                                                                                                                                                                    |Book                                                                                                                                                                                                                                                           |
+|1       |70    |American Idiot                                                                                                                                                                                                                                                |CD                                                                                                                                                                                                                                                             |
+|1       |80    |Teen Vogue                                                                                                                                                                                                                                                    |Magazine                                                                                                                                                                                                                                                       |
+|1       |17    |Rumours                                                                                                                                                                                                                                                       |CD                                                                                                                                                                                                                                                             |
+|1       |30    |The Lord of the Rings: Fellowship of the Ring                                                                                                                                                                                                                 |DVD                                                                                                                                                                                                                                                            |
+|1       |13    |Abbey Road                                                                                                                                                                                                                                                    |CD                                                                                                                                                                                                                                                             |
+|1       |47    |The Lovely Bones                                                                                                                                                                                                                                              |Book                                                                                                                                                                                                                                                           |
+|1       |11    |Led Zeppelin IV                                                                                                                                                                                                                                               |CD                                                                                                                                                                                                                                                             |
+|1       |19    |Born to Run                                                                                                                                                                                                                                                   |CD                                                                                                                                                                                                                                                             |
+|1       |51    |The Dark Knight                                                                                                                                                                                                                                               |DVD                                                                                                                                                                                                                                                            |
+|1       |22    |The Matrix                                                                                                                                                                                                                                                    |DVD                                                                                                                                                                                                                                                            |
+|1       |38    |Scientific American                                                                                                                                                                                                                                           |Magazine                                                                                                                                                                                                                                                       |
+|1       |4     |Harry Potter and the Philosopher's Stone                                                                                                                                                                                                                      |Book                                                                                                                                                                                                                                                           |
+|1       |34    |The Economist                                                                                                                                                                                                                                                 |Magazine                                                                                                                                                                                                                                                       |
+|1       |16    |Back in Black                                                                                                                                                                                                                                                 |CD                                                                                                                                                                                                                                                             |
+|1       |71    |Rolling Stone                                                                                                                                                                                                                                                 |Magazine                                                                                                                                                                                                                                                       |
+|1       |3     |To Kill a Mockingbird                                                                                                                                                                                                                                         |Book                                                                                                                                                                                                                                                           |
+|1       |63    |A Night at the Opera                                                                                                                                                                                                                                          |CD                                                                                                                                                                                                                                                             |
+|1       |54    |The Social Network                                                                                                                                                                                                                                            |DVD                                                                                                                                                                                                                                                            |
+|1       |45    |Never Let Me Go                                                                                                                                                                                                                                               |Book                                                                                                                                                                                                                                                           |
+|1       |28    |Titanic                                                                                                                                                                                                                                                       |DVD                                                                                                                                                                                                                                                            |
+|1       |52    |Interstellar                                                                                                                                                                                                                                                  |DVD                                                                                                                                                                                                                                                            |
+|1       |29    |Avatar                                                                                                                                                                                                                                                        |DVD                                                                                                                                                                                                                                                            |
+|1       |58    |Schindler's List                                                                                                                                                                                                                                              |DVD                                                                                                                                                                                                                                                            |
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Analyze the database for unpopular items
+SELECT COUNT(*), ri.itemID,
+CASE 
+ WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN b.title
+ WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN c.title
+ WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN d.title
+ WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines m) THEN m.title
+END,
+CASE 
+ WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN "Book"
+ WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN "CD"
+ WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN "DVD"
+ WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines m) THEN "Magazine"
+END
+FROM (rentableItem ri NATURAL LEFT JOIN books b) LEFT JOIN CDs c ON c.itemID = ri.itemID LEFT JOIN DVDs d  ON d.itemID = ri.itemID LEFT JOIN magazines m ON m.itemID = ri.itemID JOIN borrows b2 on b2.itemID = ri.itemID
+WHERE b2.loanDate > NOW()- INTERVAL 2 YEAR GROUP BY itemID ORDER BY COUNT(*);|
+|COUNT(*)|itemID|CASE 
+	WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN b.title
+	WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN c.title
+	WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN d.title
+	WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines|CASE 
+	WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN "Book"
+	WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN "CD"
+	WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN "DVD"
+	WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines m) THE|
+|--------|------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|1       |20    |Purple Rain                                                                                                                                                                                                                                                   |CD                                                                                                                                                                                                                                                             |
+|1       |21    |Inception                                                                                                                                                                                                                                                     |DVD                                                                                                                                                                                                                                                            |
+|1       |33    |Wired                                                                                                                                                                                                                                                         |Magazine                                                                                                                                                                                                                                                       |
+|1       |7     |Zen and the Art of Motorcycle Maintenance                                                                                                                                                                                                                     |Book                                                                                                                                                                                                                                                           |
+|1       |25    |Forrest Gump                                                                                                                                                                                                                                                  |DVD                                                                                                                                                                                                                                                            |
+|1       |41    |The Kite Runner                                                                                                                                                                                                                                               |Book                                                                                                                                                                                                                                                           |
+|1       |57    |Saving Private Ryan                                                                                                                                                                                                                                           |DVD                                                                                                                                                                                                                                                            |
+|1       |8     |Jurassic Park                                                                                                                                                                                                                                                 |Book                                                                                                                                                                                                                                                           |
+|1       |36    |Popular Science                                                                                                                                                                                                                                               |Magazine                                                                                                                                                                                                                                                       |
+|1       |14    |Thriller                                                                                                                                                                                                                                                      |CD                                                                                                                                                                                                                                                             |
+|1       |62    |21                                                                                                                                                                                                                                                            |CD                                                                                                                                                                                                                                                             |
+|1       |66    |The Miseducation of Lauryn Hill                                                                                                                                                                                                                               |CD                                                                                                                                                                                                                                                             |
+|1       |27    |Gladiator                                                                                                                                                                                                                                                     |DVD                                                                                                                                                                                                                                                            |
+|1       |43    |Life of Pi                                                                                                                                                                                                                                                    |Book                                                                                                                                                                                                                                                           |
+|1       |70    |American Idiot                                                                                                                                                                                                                                                |CD                                                                                                                                                                                                                                                             |
+|1       |80    |Teen Vogue                                                                                                                                                                                                                                                    |Magazine                                                                                                                                                                                                                                                       |
+|1       |17    |Rumours                                                                                                                                                                                                                                                       |CD                                                                                                                                                                                                                                                             |
+|1       |30    |The Lord of the Rings: Fellowship of the Ring                                                                                                                                                                                                                 |DVD                                                                                                                                                                                                                                                            |
+|1       |13    |Abbey Road                                                                                                                                                                                                                                                    |CD                                                                                                                                                                                                                                                             |
+|1       |47    |The Lovely Bones                                                                                                                                                                                                                                              |Book                                                                                                                                                                                                                                                           |
+|1       |11    |Led Zeppelin IV                                                                                                                                                                                                                                               |CD                                                                                                                                                                                                                                                             |
+|1       |19    |Born to Run                                                                                                                                                                                                                                                   |CD                                                                                                                                                                                                                                                             |
+|1       |51    |The Dark Knight                                                                                                                                                                                                                                               |DVD                                                                                                                                                                                                                                                            |
+|1       |22    |The Matrix                                                                                                                                                                                                                                                    |DVD                                                                                                                                                                                                                                                            |
+|1       |38    |Scientific American                                                                                                                                                                                                                                           |Magazine                                                                                                                                                                                                                                                       |
+|1       |4     |Harry Potter and the Philosopher's Stone                                                                                                                                                                                                                      |Book                                                                                                                                                                                                                                                           |
+|1       |34    |The Economist                                                                                                                                                                                                                                                 |Magazine                                                                                                                                                                                                                                                       |
+|1       |16    |Back in Black                                                                                                                                                                                                                                                 |CD                                                                                                                                                                                                                                                             |
+|1       |71    |Rolling Stone                                                                                                                                                                                                                                                 |Magazine                                                                                                                                                                                                                                                       |
+|1       |3     |To Kill a Mockingbird                                                                                                                                                                                                                                         |Book                                                                                                                                                                                                                                                           |
+|1       |63    |A Night at the Opera                                                                                                                                                                                                                                          |CD                                                                                                                                                                                                                                                             |
+|1       |54    |The Social Network                                                                                                                                                                                                                                            |DVD                                                                                                                                                                                                                                                            |
+|1       |45    |Never Let Me Go                                                                                                                                                                                                                                               |Book                                                                                                                                                                                                                                                           |
+|1       |28    |Titanic                                                                                                                                                                                                                                                       |DVD                                                                                                                                                                                                                                                            |
+|1       |52    |Interstellar                                                                                                                                                                                                                                                  |DVD                                                                                                                                                                                                                                                            |
+|1       |29    |Avatar                                                                                                                                                                                                                                                        |DVD                                                                                                                                                                                                                                                            |
+|1       |58    |Schindler's List                                                                                                                                                                                                                                              |DVD                                                                                                                                                                                                                                                            |
+|2       |5     |The Road                                                                                                                                                                                                                                                      |Book                                                                                                                                                                                                                                                           |
+|2       |40    |Discover                                                                                                                                                                                                                                                      |Magazine                                                                                                                                                                                                                                                       |
+|2       |42    |Harry Potter and the Prisoner of Azkaban                                                                                                                                                                                                                      |Book                                                                                                                                                                                                                                                           |
+|2       |2     |1984                                                                                                                                                                                                                                                          |Book                                                                                                                                                                                                                                                           |
+|2       |10    |We Should All Be Feminists                                                                                                                                                                                                                                    |Book                                                                                                                                                                                                                                                           |
+|2       |1     |Harry Potter and the Chamber of Secrets                                                                                                                                                                                                                       |Book                                                                                                                                                                                                                                                           |
+|3       |6     |Pride and Prejudice                                                                                                                                                                                                                                           |Book                                                                                                                                                                                                                                                           |
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Determine which items are popular by user age
+-- This joins the member table and then filters by age.
+    -- This is for ages 20-25, can change the age range to any other range.
+SELECT COUNT(*), ri.itemID,
+CASE 
+ WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN b.title
+ WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN c.title
+ WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN d.title
+ WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines m) THEN m.title
+END,
+CASE 
+ WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN "Book"
+ WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN "CD"
+ WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN "DVD"
+ WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines m) THEN "Magazine"
+END
+FROM (rentableItem ri NATURAL LEFT JOIN books b) LEFT JOIN CDs c ON c.itemID = ri.itemID LEFT JOIN DVDs d  ON d.itemID = ri.itemID LEFT JOIN magazines m ON m.itemID = ri.itemID JOIN borrows b2 on b2.itemID = ri.itemID JOIN `member` m2 ON m2.userID = b2.userID
+WHERE m2.age > 20 AND m2.age < 25 GROUP BY itemID ORDER BY COUNT(*) DESC;|
+|COUNT(*)|itemID|CASE 
+	WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN b.title
+	WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN c.title
+	WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN d.title
+	WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines|CASE 
+	WHEN ri.itemID = ANY(SELECT b.itemID FROM books b) THEN "Book"
+	WHEN ri.itemID = ANY(SELECT c.itemID FROM CDs c) THEN "CD"
+	WHEN ri.itemID = ANY(SELECT d.itemID FROM DVDs d) THEN "DVD"
+	WHEN ri.itemID = ANY(SELECT m.itemID FROM magazines m) THE|
+|--------|------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|1       |71    |Rolling Stone                                                                                                                                                                                                                                                 |Magazine                                                                                                                                                                                                                                                       |
+|1       |13    |Abbey Road                                                                                                                                                                                                                                                    |CD                                                                                                                                                                                                                                                             |
+|1       |1     |Harry Potter and the Chamber of Secrets                                                                                                                                                                                                                       |Book                                                                                                                                                                                                                                                           |
+|1       |11    |Led Zeppelin IV                                                                                                                                                                                                                                               |CD                                                                                                                                                                                                                                                             |
+|1       |70    |American Idiot                                                                                                                                                                                                                                                |CD                                                                                                                                                                                                                                                             |
+|1       |5     |The Road                                                                                                                                                                                                                                                      |Book                                                                                                                                                                                                                                                           |
+|1       |66    |The Miseducation of Lauryn Hill                                                                                                                                                                                                                               |CD                                                                                                                                                                                                                                                             |
+|                                                                                                                                                                                                                                                                                                                                                                                        |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Frequent borrowers of a specific genre: Identify the members who have borrowed the most books in a particular genre (e.g., "Mystery") in the last year
+SELECT b.userID, m.name, genre, COUNT(*) as borrowCount
+FROM borrows b JOIN books bk ON b.itemID = bk.itemID JOIN member m ON b.userID = m.userID
+WHERE bk.genre = 'Fiction' GROUP BY userID, genre ORDER BY borrowCount DESC;|
+|userID|name       |genre  |borrowCount|
+|------|-----------|-------|-----------|
+|14    |Nina Clark |Fiction|1          |
+|1     |Alice Smith|Fiction|1          |
+|11    |Kevin White|Fiction|1          |
+|                                                                                                                                                                                                                                                                                                                           |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Books due soon: Generate a report of all items due within the next week, sorted by due date.
+SELECT b.userID, m.name, bk.title, b.dueDate
+FROM borrows b JOIN books bk ON b.itemID = bk.itemID JOIN member m ON b.userID = m.userID
+WHERE b.dueDate BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY ORDER BY b.dueDate;|
+|userID|name     |title                                  |dueDate   |
+|------|---------|---------------------------------------|----------|
+|5     |Eli Black|Harry Potter and the Chamber of Secrets|2025-05-04|
+|                                                                                                                                                                                                                                                                                                                                                                                                  |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Average borrowing time: Calculate the average number of days members borrow books for a specific genre.
+SELECT b.userID, m.name, bk.genre, AVG(DATEDIFF(b.returnDate, b.loanDate)) as avgBorrowTime
+FROM borrows b JOIN books bk ON b.itemID = bk.itemID JOIN member m ON b.userID = m.userID
+WHERE b.returnDate IS NOT NULL
+GROUP BY b.userID, bk.genre ORDER BY b.userID, avgBorrowTime DESC;|
+|userID|name       |genre           |avgBorrowTime|
+|------|-----------|----------------|-------------|
+|1     |Alice Smith|Fiction         |12           |
+|1     |Alice Smith|Fantasy         |9            |
+|3     |Charlie Lee|Fantasy         |16           |
+|3     |Charlie Lee|Science Fiction |12           |
+|4     |Dana White |Post-apocalyptic|21           |
+|5     |Eli Black  |Fantasy         |7            |
+|5     |Eli Black  |Post-apocalyptic|1            |
+|6     |Fiona Brown|Dystopian       |15           |
+|8     |Hannah Gray|Fantasy         |12           |
+|10    |Judy Blue  |Adventure       |12           |
+|11    |Kevin White|Fantasy         |19           |
+|11    |Kevin White|Dystopian       |17           |
+|11    |Kevin White|Romance         |12           |
+|11    |Kevin White|Fiction         |12           |
+|12    |Laura Davis|Essay           |18           |
+|14    |Nina Clark |Fiction         |17           |
+|14    |Nina Clark |Philosophical   |12           |
+|                                                                                                                                                                                                                                                                           |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- List all books by a specific author: Display all books in the library collection written by a particular author.
+    -- without author column
+SELECT itemID, title, genre, publisher, year, shelved, stock, ISBN, deweyDecimal FROM books WHERE author = "J.K. Rowling";|
+|itemID|title                                   |genre  |publisher |year      |shelved|stock|ISBN             |deweyDecimal|
+|------|----------------------------------------|-------|----------|----------|-------|-----|-----------------|------------|
+|1     |Harry Potter and the Chamber of Secrets |Fantasy|Scholastic|1999-06-02|1      |2    |9,780,439,064,873|813.54      |
+|4     |Harry Potter and the Philosopher's Stone|Fantasy|Bloomsbury|1997-06-26|1      |4    |9,780,747,532,699|823.92      |
+|42    |Harry Potter and the Prisoner of Azkaban|Fantasy|Scholastic|1999-07-08|1      |2    |9,780,439,139,595|813.6       |
+|                                                                                                                                                                                         |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- List all books by a specific author: Display all books in the library collection written by a particular author.
+    -- with author
+SELECT * FROM books WHERE author = "J.K. Rowling";|
+|itemID|ISBN             |deweyDecimal|title                                   |author      |genre  |year      |publisher |stock|shelved|
+|------|-----------------|------------|----------------------------------------|------------|-------|----------|----------|-----|-------|
+|1     |9,780,439,064,873|813.54      |Harry Potter and the Chamber of Secrets |J.K. Rowling|Fantasy|1999-06-02|Scholastic|2    |1      |
+|4     |9,780,747,532,699|823.92      |Harry Potter and the Philosopher's Stone|J.K. Rowling|Fantasy|1997-06-26|Bloomsbury|4    |1      |
+|42    |9,780,439,139,595|813.6       |Harry Potter and the Prisoner of Azkaban|J.K. Rowling|Fantasy|1999-07-08|Scholastic|2    |1      |
+|                                                                                                                                                                                                                                                                                                                            |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Most popular author in the last month: Determine the author whose books have been borrowed the most in the last month.
+SELECT bk.author, COUNT(bk.author) AS authCount
+FROM borrows b JOIN books bk ON b.itemID = bk.itemID
+WHERE b.loanDate >= CURDATE() - INTERVAL 1 MONTH
+GROUP BY bk.author ORDER BY authCount DESC; |
+|author       |authCount|
+|-------------|---------|
+|George Orwell|1        |
+|J.K. Rowling |1        |
+|Jane Austen  |1        |
+|                                                                                                                                                                                                      |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Check membership status: Display the current status and account information for a specific client based on their unique ID
+-- Membership Type
+SELECT membershipType FROM customer WHERE userID = 1;|
+|membershipType|
+|--------------|
+|Gold          |
+|                                                                                                                                         |
+|-----------------------------------------------------------------------------------------------------------------------------------------|
+|-- Membership Type from Name
+SELECT membershipType FROM customer 
+WHERE userID = 
+(SELECT userID FROM member WHERE name = "Alice Smith");|
+|membershipType|
+|--------------|
+|Gold          |
+|                                                    |
+|----------------------------------------------------|
+|-- All info
+SELECT * FROM customer WHERE userID = 1;|
+|userID|fees|status|membershipType|libraryCardNumber|
+|------|----|------|--------------|-----------------|
+|1     |0   |Active|Gold          |9,238,475,610    |
+|                                                                                                                              |
+|------------------------------------------------------------------------------------------------------------------------------|
+|-- All info from customer name
+SELECT * FROM customer 
+WHERE userID = 
+(SELECT userID FROM member WHERE name = "Alice Smith");|
+|userID|fees|status|membershipType|libraryCardNumber|
+|------|----|------|--------------|-----------------|
+|1     |0   |Active|Gold          |9,238,475,610    |
+|                                                                                                                                                                                                                                                                                                                               |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Fine calculation: Calculate the total fines owed by each member, considering overdue books and a daily fine rate (e.g., $0.25 per day).
+    -- calculated by triggers and preset to be accurate
+    -- adjusted based on payments as well and its just the fees column for customer table
+select userID, fees from customer;|
+|userID|fees |
+|------|-----|
+|1     |0    |
+|2     |2.5  |
+|3     |0    |
+|4     |1.25 |
+|5     |0    |
+|6     |2.5  |
+|7     |2.5  |
+|8     |2.5  |
+|9     |12.75|
+|10    |13.75|
+|11    |1    |
+|12    |0    |
+|13    |53.5 |
+|14    |0    |
+|15    |105  |
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Exceeded borrowing limits: Produce a list of clients who have exceeded their borrowing limits.
+SELECT 
+    m.userID, 
+    m.name, 
+    c.membershipType, 
+    COUNT(b.loanID) AS cb
+FROM 
+    customer c
+JOIN 
+    borrows b ON c.userID = b.userID
+JOIN 
+    member m ON m.userID = c.userID
+WHERE 
+    b.returnDate IS NULL
+GROUP BY 
+    m.userID, m.name, c.membershipType
+HAVING 
+    (c.membershipType = 'Bronze' AND COUNT(b.loanID) > 1)
+ OR (c.membershipType = 'Silver' AND COUNT(b.loanID) > 5)
+ OR (c.membershipType = 'Gold' AND COUNT(b.loanID) > 10)
+ORDER BY 
+    cb DESC;|
+|userID|name       |membershipType|cb |
+|------|-----------|--------------|---|
+|3     |Charlie Lee|Bronze        |2  |
+|                                                                                                                                                                                                                                                                                                                                                                                                                               |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Monthly fees report: Generate a report of total fees collected within the last month, broken down by membership type.
+-- Pick month and Year
+SELECT 
+    c.membershipType,
+    SUM(p.paymentValue) AS total_collected
+FROM 
+    payments p
+JOIN 
+    customer c ON p.userID = c.userID
+WHERE 
+    YEAR(p.datePayed) = 2025
+    AND MONTH(p.datePayed) = 4
+GROUP BY 
+    c.membershipType
+ORDER BY 
+    total_collected DESC;|
+|membershipType|total_collected|
+|--------------|---------------|
+|Silver        |712            |
+|Gold          |309.75         |
+|Bronze        |100.75         |
+|                                                                                                                                                                                                                                                                                                                                                |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| -- Generates every payment for the month and orders by membership Type
+SELECT 
+    c.membershipType,
+    p.userID,
+    p.paymentValue,
+    p.datePayed
+FROM 
+    payments p
+JOIN 
+    customer c ON p.userID = c.userID
+WHERE 
+    YEAR(p.datePayed) = 2025
+    AND MONTH(p.datePayed) = 4
+ORDER BY 
+    c.membershipType ASC, p.datePayed ASC;|
+|membershipType|userID|paymentValue|datePayed |
+|--------------|------|------------|----------|
+|Bronze        |3     |0.5         |2025-04-27|
+|Bronze        |13    |60          |2025-04-27|
+|Bronze        |5     |0.25        |2025-04-27|
+|Bronze        |9     |40          |2025-04-27|
+|Gold          |8     |70          |2025-04-27|
+|Gold          |4     |30          |2025-04-27|
+|Gold          |11    |1           |2025-04-27|
+|Gold          |1     |0           |2025-04-27|
+|Gold          |8     |137         |2025-04-27|
+|Gold          |4     |71          |2025-04-27|
+|Gold          |14    |0.75        |2025-04-27|
+|Silver        |6     |100         |2025-04-27|
+|Silver        |7     |154         |2025-04-27|
+|Silver        |2     |100         |2025-04-27|
+|Silver        |12    |2.25        |2025-04-27|
+|Silver        |6     |105.75      |2025-04-27|
+|Silver        |10    |50          |2025-04-27|
+|Silver        |7     |50          |2025-04-27|
+|Silver        |2     |50          |2025-04-27|
+|Silver        |15    |100         |2025-04-27|
+|                                                                                                                                                                                                                                                                                                                                                                     |
+|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Frequent borrowed items by client type: Determine the most frequently borrowed items by each client type.
+SELECT c.membershipType, ri.itemID, COUNT(ri.itemID) AS borrowCount
+FROM borrows b JOIN customer c ON b.userID = c.userID JOIN rentableItem ri ON b.itemID = ri.itemID
+GROUP BY c.membershipType, ri.itemID ORDER BY c.membershipType, borrowCount DESC;|
+|membershipType|itemID|borrowCount|
+|--------------|------|-----------|
+|Bronze        |8     |1          |
+|Bronze        |28    |1          |
+|Bronze        |1     |1          |
+|Bronze        |6     |1          |
+|Bronze        |40    |1          |
+|Bronze        |30    |1          |
+|Bronze        |20    |1          |
+|Bronze        |58    |1          |
+|Bronze        |5     |1          |
+|Bronze        |4     |1          |
+|Bronze        |29    |1          |
+|Bronze        |27    |1          |
+|Bronze        |70    |1          |
+|Bronze        |2     |1          |
+|Gold          |42    |2          |
+|Gold          |41    |1          |
+|Gold          |6     |1          |
+|Gold          |17    |1          |
+|Gold          |36    |1          |
+|Gold          |45    |1          |
+|Gold          |1     |1          |
+|Gold          |22    |1          |
+|Gold          |5     |1          |
+|Gold          |3     |1          |
+|Gold          |19    |1          |
+|Gold          |47    |1          |
+|Gold          |54    |1          |
+|Gold          |57    |1          |
+|Gold          |7     |1          |
+|Silver        |10    |2          |
+|Silver        |21    |1          |
+|Silver        |52    |1          |
+|Silver        |43    |1          |
+|Silver        |63    |1          |
+|Silver        |13    |1          |
+|Silver        |38    |1          |
+|Silver        |33    |1          |
+|Silver        |62    |1          |
+|Silver        |16    |1          |
+|Silver        |80    |1          |
+|Silver        |66    |1          |
+|Silver        |6     |1          |
+|Silver        |34    |1          |
+|Silver        |25    |1          |
+|Silver        |51    |1          |
+|Silver        |2     |1          |
+|Silver        |71    |1          |
+|                                                                                                                                                                                                                                                                                  |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Never late returns: Find out which clients have never returned an item late.
+SELECT c.userID, m.name
+FROM customer c JOIN member m ON c.userID = m.userID
+WHERE NOT EXISTS (
+    SELECT 1 FROM borrows b WHERE b.userID = c.userID AND DATEDIFF(b.returnDate, b.dueDate) > 0
+);|
+|userID|name        |
+|------|------------|
+|1     |Alice Smith |
+|7     |George Green|
+|8     |Hannah Gray |
+|10    |Judy Blue   |
+|                                                                                                                                                                                                                                                                                                                                                                                           |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Average loan duration: Calculate the average time an item stays on loan before being returned.
+SELECT ri.itemID, (SELECT ai.title FROM allItems ai WHERE ai.itemID = ri.itemID), AVG(DATEDIFF(b.returnDate, b.loanDate)) AS avgLoanDuration
+FROM borrows b JOIN rentableItem ri ON b.itemID = ri.itemID
+WHERE b.returnDate IS NOT NULL
+GROUP BY ri.itemID ORDER BY avgLoanDuration DESC;|
+|itemID|(SELECT ai.title FROM allItems ai WHERE ai.itemID = ri.itemID)|avgLoanDuration|
+|------|--------------------------------------------------------------|---------------|
+|21    |Inception                                                     |21             |
+|29    |Avatar                                                        |19             |
+|34    |The Economist                                                 |18             |
+|10    |We Should All Be Feminists                                    |18             |
+|45    |Never Let Me Go                                               |17             |
+|3     |To Kill a Mockingbird                                         |17             |
+|4     |Harry Potter and the Philosopher's Stone                      |16             |
+|42    |Harry Potter and the Prisoner of Azkaban                      |15.5           |
+|70    |American Idiot                                                |15             |
+|36    |Popular Science                                               |15             |
+|52    |Interstellar                                                  |15             |
+|2     |1984                                                          |15             |
+|13    |Abbey Road                                                    |15             |
+|58    |Schindler's List                                              |15             |
+|40    |Discover                                                      |14.5           |
+|25    |Forrest Gump                                                  |14             |
+|28    |Titanic                                                       |14             |
+|19    |Born to Run                                                   |13             |
+|62    |21                                                            |13             |
+|17    |Rumours                                                       |13             |
+|14    |Thriller                                                      |13             |
+|8     |Jurassic Park                                                 |12             |
+|6     |Pride and Prejudice                                           |12             |
+|47    |The Lovely Bones                                              |12             |
+|41    |The Kite Runner                                               |12             |
+|43    |Life of Pi                                                    |12             |
+|7     |Zen and the Art of Motorcycle Maintenance                     |12             |
+|5     |The Road                                                      |11             |
+|16    |Back in Black                                                 |11             |
+|30    |The Lord of the Rings: Fellowship of the Ring                 |10             |
+|11    |Led Zeppelin IV                                               |10             |
+|1     |Harry Potter and the Chamber of Secrets                       |8              |
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Monthly summary report: Generate a report summarizing the total number of items loaned, total fees collected, and the most popular items for the month.
+    -- This has total number of loans and total fees for the last month
+SELECT COUNT(*) as items_loaned FROM borrows
+WHERE YEAR(loanDate) = 2024 AND MONTH(loanDate) = 1
+AND
+itemID in
+(SELECT itemID FROM books
+        UNION ALL
+        SELECT itemID FROM magazines
+        UNION ALL
+        SELECT itemID FROM DVDs);|
+|items_loaned|
+|------------|
+|7           |
+|                                                                                                                                                                                                                                                                                                                                                    |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Monthly summary report: Generate a report summarizing the total number of items loaned, total fees collected, and the most popular items for the month.
+    -- This has total fees for the last month
+SELECT 
+    SUM(p.paymentValue) AS total_fees_paid
+FROM 
+    payments p
+WHERE 
+    YEAR(p.datePayed) = 2025
+    AND MONTH(p.datePayed) = 4;|
+|total_fees_paid|
+|---------------|
+|1,122.5        |
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Monthly summary report: Generate a report summarizing the total number of items loaned, total fees collected, and the most popular items for the month.
+    -- This has most popular items for the last month
+SELECT 
+    ai.title,
+    ai.itemType,
+    ai.itemID,
+    COUNT(b.itemID) AS borrow_count
+FROM 
+    borrows b
+JOIN 
+    (
+        SELECT itemID, title, 'Book' AS itemType FROM books
+        UNION ALL
+        SELECT itemID, title, 'Magazine' AS itemType FROM magazines
+        UNION ALL
+        SELECT itemID, title, 'DVD' AS itemType FROM DVDs
+    ) AS ai ON b.itemID = ai.itemID
+WHERE
+ YEAR(loanDate) = 2024 AND MONTH(loanDate) = 1
+GROUP BY 
+    ai.title, ai.itemType;|
+|title                                        |itemType|itemID|borrow_count|
+|---------------------------------------------|--------|------|------------|
+|Discover                                     |Magazine|40    |1           |
+|Gladiator                                    |DVD     |27    |1           |
+|Harry Potter and the Chamber of Secrets      |Book    |1     |1           |
+|Pride and Prejudice                          |Book    |6     |1           |
+|Scientific American                          |Magazine|38    |1           |
+|The Lord of the Rings: Fellowship of the Ring|DVD     |30    |1           |
+|The Road                                     |Book    |5     |1           |
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Statistics breakdown: Break down the statistics by client type and item category (books, digital media, magazines).
+SELECT 
+    c.membershipType,
+    ai.itemType,
+    COUNT(b.loanID) AS borrow_count
+FROM 
+    customer c
+JOIN 
+    borrows b ON c.userID = b.userID
+JOIN 
+    (
+        SELECT itemID, 'Book' AS itemType FROM books
+        UNION ALL
+        SELECT itemID, 'Magazine' AS itemType FROM magazines
+        UNION ALL
+        SELECT itemID, 'DVD' AS itemType FROM DVDs
+    ) ai ON b.itemID = ai.itemID
+GROUP BY 
+    c.membershipType,
+    ai.itemType
+ORDER BY 
+    c.membershipType ASC,
+    ai.itemType ASC;|
+|membershipType|itemType|borrow_count|
+|--------------|--------|------------|
+|Bronze        |Book    |6           |
+|Bronze        |DVD     |5           |
+|Bronze        |Magazine|1           |
+|Gold          |Book    |10          |
+|Gold          |DVD     |3           |
+|Gold          |Magazine|1           |
+|Silver        |Book    |5           |
+|Silver        |DVD     |4           |
+|Silver        |Magazine|5           |
+|                                                                                                                                                                                                                                                                                                                       |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Client borrowing report: Produce an individual report for each client showing their borrowing history and outstanding fees.
+    -- This shows the fees and the membership type of the user
+SELECT c.userID, m.name,c.membershipType, c.fees
+FROM customer c JOIN member m ON c.userID = m.userID
+WHERE c.userID = 1;|
+|userID|name       |membershipType|fees|
+|------|-----------|--------------|----|
+|1     |Alice Smith|Gold          |0   |
+|                                                                                                                                                                                                                                                                                                                                                           |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|    -- This shows the items borrowed by the user and the dates of the loans
+SELECT b.itemID, (SELECT ai.title FROM allItems ai WHERE ai.itemID = b.itemID), b.loanDate, b.dueDate, b.returnDate
+FROM borrows b JOIN customer c ON b.userID = c.userID JOIN member m ON c.userID = m.userID JOIN rentableItem ri ON b.itemID = ri.itemID
+WHERE c.userID = 1;|
+|itemID|(SELECT ai.title FROM allItems ai WHERE ai.itemID = b.itemID)|loanDate  |dueDate   |returnDate|
+|------|-------------------------------------------------------------|----------|----------|----------|
+|1     |Harry Potter and the Chamber of Secrets                      |2024-01-01|2024-01-14|2024-01-10|
+|41    |The Kite Runner                                              |2024-02-22|2024-03-07|2024-03-05|
+|19    |Born to Run                                                  |2024-03-06|2024-03-20|2024-03-19|
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Item availability and history: List all items, their current availability status, and their last borrowed date. Highlight items that have not been borrowed in the past six months.
+SELECT ri.itemID, (SELECT ai.title FROM allItems ai WHERE ai.itemID = ri.itemID), ri.loanable, (SELECT (CASE WHEN b.loanDate IS NULL THEN NULL ELSE MAX(b.loanDate) END)) AS last_loaned
+FROM rentableItem ri LEFT JOIN borrows b ON ri.itemID = b.itemID
+WHERE b.loanDate IS NULL OR b.loanDate < CURDATE() - INTERVAL 6 MONTH -- Change this to whatever time period you want to check for
+GROUP BY ri.itemID ORDER BY ri.itemID;|
+|itemID|(SELECT ai.title FROM allItems ai WHERE ai.itemID = ri.itemID)   |loanable|last_loaned|
+|------|-----------------------------------------------------------------|--------|-----------|
+|1     |Harry Potter and the Chamber of Secrets                          |1       |2024-01-01 |
+|2     |1984                                                             |1       |2024-02-25 |
+|3     |To Kill a Mockingbird                                            |1       |2024-03-24 |
+|4     |Harry Potter and the Philosopher's Stone                         |1       |2024-02-20 |
+|5     |The Road                                                         |1       |2024-02-11 |
+|6     |Pride and Prejudice                                              |1       |2024-03-29 |
+|7     |Zen and the Art of Motorcycle Maintenance                        |1       |2024-02-19 |
+|8     |Jurassic Park                                                    |1       |2024-02-03 |
+|9     |The Subtle Art of Not Giving a F*ck                              |1       |           |
+|10    |We Should All Be Feminists                                       |1       |2024-03-07 |
+|11    |Led Zeppelin IV                                                  |1       |2024-01-22 |
+|12    |Hotel California                                                 |1       |           |
+|13    |Abbey Road                                                       |1       |2024-02-07 |
+|14    |Thriller                                                         |1       |2024-01-12 |
+|15    |The Dark Side of the Moon                                        |1       |           |
+|16    |Back in Black                                                    |1       |2024-01-20 |
+|17    |Rumours                                                          |1       |2024-03-19 |
+|18    |The Wall                                                         |1       |           |
+|19    |Born to Run                                                      |1       |2024-03-06 |
+|20    |Purple Rain                                                      |1       |2024-01-30 |
+|21    |Inception                                                        |1       |2024-02-11 |
+|22    |The Matrix                                                       |1       |2024-02-14 |
+|23    |The Godfather                                                    |1       |           |
+|24    |Pulp Fiction                                                     |1       |           |
+|25    |Forrest Gump                                                     |1       |2024-03-27 |
+|26    |The Shawshank Redemption                                         |1       |           |
+|27    |Gladiator                                                        |1       |2024-01-24 |
+|28    |Titanic                                                          |1       |2024-03-03 |
+|29    |Avatar                                                           |1       |2024-02-03 |
+|30    |The Lord of the Rings: Fellowship of the Ring                    |1       |2024-01-10 |
+|31    |Time                                                             |1       |           |
+|32    |National Geographic                                              |1       |           |
+|33    |Wired                                                            |1       |2024-02-28 |
+|34    |The Economist                                                    |1       |2024-03-28 |
+|35    |Forbes                                                           |1       |           |
+|36    |Popular Science                                                  |1       |2024-03-11 |
+|37    |New Yorker                                                       |1       |           |
+|38    |Scientific American                                              |1       |2024-01-05 |
+|39    |Nature                                                           |1       |           |
+|40    |Discover                                                         |1       |2024-02-24 |
+|41    |The Kite Runner                                                  |1       |2024-02-22 |
+|42    |Harry Potter and the Prisoner of Azkaban                         |1       |2024-02-22 |
+|43    |Life of Pi                                                       |1       |2024-03-08 |
+|44    |The Goldfinch                                                    |1       |           |
+|45    |Never Let Me Go                                                  |1       |2024-03-01 |
+|46    |The Hobbit                                                       |1       |           |
+|47    |The Lovely Bones                                                 |1       |2024-03-04 |
+|48    |Slaughterhouse-Five                                              |1       |           |
+|49    |The Road to Character                                            |1       |           |
+|50    |Quiet: The Power of Introverts in a World That Can't Stop Talking|1       |           |
+|51    |The Dark Knight                                                  |1       |2024-02-16 |
+|52    |Interstellar                                                     |1       |2024-03-17 |
+|53    |Fight Club                                                       |1       |           |
+|54    |The Social Network                                               |1       |2024-03-05 |
+|55    |The Silence of the Lambs                                         |1       |           |
+|56    |The Green Mile                                                   |1       |           |
+|57    |Saving Private Ryan                                              |1       |2024-03-13 |
+|58    |Schindler's List                                                 |1       |2024-02-15 |
+|59    |The Departed                                                     |1       |           |
+|60    |Whiplash                                                         |1       |           |
+|61    |Nevermind                                                        |1       |           |
+|62    |21                                                               |1       |2024-03-02 |
+|63    |A Night at the Opera                                             |1       |2024-03-15 |
+|64    |Jagged Little Pill                                               |1       |           |
+|65    |Good Kid, M.A.A.D City                                           |1       |           |
+|66    |The Miseducation of Lauryn Hill                                  |1       |2024-02-13 |
+|67    |Lemonade                                                         |1       |           |
+|68    |Born This Way                                                    |1       |           |
+|69    |Damn.                                                            |1       |           |
+|70    |American Idiot                                                   |1       |2024-03-09 |
+|71    |Rolling Stone                                                    |1       |2024-03-25 |
+|72    |Vogue                                                            |1       |           |
+|73    |Scientific American Mind                                         |1       |           |
+|74    |Harvard Business Review                                          |1       |           |
+|75    |National Geographic Kids                                         |1       |           |
+|76    |Entertainment Weekly                                             |1       |           |
+|77    |PC Gamer                                                         |1       |           |
+|78    |Smithsonian                                                      |1       |           |
+|79    |The Atlantic                                                     |1       |           |
+|80    |Teen Vogue                                                       |1       |2024-02-18 |
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Overdue items report: Generate a report listing all overdue items, the client responsible, and the calculated late fees.
+SELECT b.itemID, (SELECT ai.title FROM allItems ai WHERE ai.itemID = b.itemID), b.userID, m.name, b.dueDate, DATEDIFF(CURDATE(), b.dueDate) AS overdueDays, c.fees
+FROM borrows b JOIN customer c ON b.userID = c.userID JOIN member m ON c.userID = m.userID
+WHERE b.returnDate IS NULL AND b.dueDate < CURDATE()
+ORDER BY b.itemID;|
+|itemID|(SELECT ai.title FROM allItems ai WHERE ai.itemID = b.itemID)|userID|name        |dueDate   |overdueDays|fees |
+|------|-------------------------------------------------------------|------|------------|----------|-----------|-----|
+|6     |Pride and Prejudice                                          |2     |Bob Johnson |2024-04-12|385        |2.5  |
+|10    |We Should All Be Feminists                                   |6     |Fiona Brown |2024-03-21|407        |2.5  |
+|20    |Purple Rain                                                  |13    |Mark Turner |2024-02-13|444        |53.5 |
+|22    |The Matrix                                                   |8     |Hannah Gray |2024-02-28|429        |2.5  |
+|27    |Gladiator                                                    |9     |Ian Red     |2024-02-07|450        |12.75|
+|33    |Wired                                                        |10    |Judy Blue   |2024-03-13|415        |13.75|
+|38    |Scientific American                                          |2     |Bob Johnson |2024-01-19|469        |2.5  |
+|51    |The Dark Knight                                              |7     |George Green|2024-03-01|427        |2.5  |
+|54    |The Social Network                                           |8     |Hannah Gray |2024-03-19|409        |2.5  |
+|57    |Saving Private Ryan                                          |4     |Dana White  |2024-03-27|401        |1.25 |
+|63    |A Night at the Opera                                         |7     |George Green|2024-03-29|399        |2.5  |
+|66    |The Miseducation of Lauryn Hill                              |15    |Oscar Hall  |2024-02-27|430        |105  |
+|71    |Rolling Stone                                                |15    |Oscar Hall  |2024-04-08|389        |105  |
+|80    |Teen Vogue                                                   |6     |Fiona Brown |2024-03-03|425        |2.5  |
+|                                                                                                                                                                                                                                                                                                                                                 |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Members with overdue books: List all members who currently have at least one overdue book, along with the titles of the overdue books.(NOT returned yet)
+SELECT m.name, b.dueDate, b.returnDate FROM borrows b
+JOIN books bk ON b.itemID = bk.itemID
+JOIN member m ON m.userID = b.userID
+WHERE 
+(CURDATE() > dueDate AND returnDate is NULL);|
+|name       |dueDate   |returnDate|
+|-----------|----------|----------|
+|Bob Johnson|2024-04-12|          |
+|Fiona Brown|2024-03-21|          |
+|                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Revenue summary: Summarize the library’s revenue from fees, showing the breakdown by membership type and item category
+ -- By membership type
+SELECT 
+    c.membershipType,
+    SUM(p.paymentValue) AS total_revenue
+FROM 
+    payments p
+JOIN 
+    customer c ON p.userID = c.userID
+WHERE 
+    YEAR(p.datePayed) = 2025
+    AND MONTH(p.datePayed) = 4
+GROUP BY 
+    c.membershipType
+ORDER BY 
+    total_revenue DESC;|
+|membershipType|total_revenue|
+|--------------|-------------|
+|Silver        |712          |
+|Gold          |309.75       |
+|Bronze        |100.75       |
+|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|-- Revenue summary: Summarize the library’s revenue from fees, showing the breakdown by membership type and item category
+ -- By item category
+SELECT 
+    itemDetails.itemType,
+    SUM(p.paymentValue) AS total_revenue
+FROM 
+    payments p
+JOIN 
+    borrows b ON p.userID = b.userID
+JOIN 
+    (
+        SELECT itemID, 'Book' AS itemType FROM books
+        UNION ALL
+        SELECT itemID, 'Magazine' AS itemType FROM magazines
+        UNION ALL
+        SELECT itemID, 'DVD' AS itemType FROM DVDs
+    ) AS itemDetails ON b.itemID = itemDetails.itemID
+WHERE 
+    YEAR(p.datePayed) = 2025
+    AND MONTH(p.datePayed) = 4
+GROUP BY 
+    itemDetails.itemType
+ORDER BY 
+    total_revenue DESC;|
+|itemType|total_revenue|
+|--------|-------------|
+|DVD     |1,121.75     |
+|Book    |929.75       |
+|Magazine|669          |

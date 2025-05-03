@@ -253,7 +253,7 @@ GROUP BY bk.author ORDER BY authCount DESC;
 
 --Find books by publication year: Retrieve a list of books published in a specific year.
 --specific year
-SELECT * FROM books WHERE year = '1999-06-02'
+SELECT * FROM books WHERE YEAR(year) = 1999;
 
 --books published between year date interval
 SELECT * FROM books WHERE year BETWEEN '1998-01-01' AND '2000-01-01';
